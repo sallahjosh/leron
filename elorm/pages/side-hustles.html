@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Side Hustles | Elorm Ernest Sepenoo</title>
+  <meta name="description" content="Footwear business and photography by Elorm Ernest Sepenoo." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css?v=20251210" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark">E</span>
+        <span class="brand-name">Elorm</span>
+      </a>
+      <nav class="nav-links" id="nav-links">
+        <a href="about.html">About</a>
+        <a href="academics.html">Academics & Skills</a>
+        <a href="side-hustles.html" class="active">Side Hustles</a>
+        <a href="services.html">Services</a>
+        <a href="contact.html" class="btn btn-primary">Contact</a>
+      </nav>
+      <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="page section">
+    <div class="container">
+      <span class="kicker">Side Hustles</span>
+      <h1>Footwear & Photography</h1>
+
+      <div class="grid-2 mt-4">
+        <section class="card">
+          <h3>Footwear Business</h3>
+          <p>I offer quality, comfortable, and stylish footwear for students and young professionals. Reach out for orders and inquiries.</p>
+          <div class="grid-3 mt-2">
+            <img src="../assets/images/footwear-1.jpg" alt="Footwear 1" />
+            <img src="../assets/images/footwear-2.jpg" alt="Footwear 2" />
+            <img src="../assets/images/footwear-3.jpg" alt="Footwear 3" />
+            <img src="../assets/images/footwear-4.jpg" alt="Footwear 4" />
+            <img src="../assets/images/footwear-5.jpg" alt="Footwear 5" />
+            <img src="../assets/images/footwear-6.jpg" alt="Footwear 6" />
+          </div>
+        </section>
+
+        <section class="card">
+          <h3>Photography</h3>
+          <p>I capture portraits, products, and events with a focus on natural light, storytelling, and clean composition.</p>
+          <div class="gallery mt-2">
+            <img src="../assets/images/photography-1.jpg" alt="Photography 1" />
+            <img src="../assets/images/photography-2.jpg" alt="Photography 2" />
+            <img src="../assets/images/photography-3.jpg" alt="Photography 3" />
+            <img src="../assets/images/photography-4.jpg" alt="Photography 4" />
+            <img src="../assets/images/photography-5.jpg" alt="Photography 5" />
+            <img src="../assets/images/photography-6.jpg" alt="Photography 6" />
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Elorm Ernest Sepenoo. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    (function(){
+      const $$ = (s, ctx=document) => Array.from(ctx.querySelectorAll(s));
+      const thumbs = $$(".card .grid-3 img, .card .gallery img");
+      if (!thumbs.length) return;
+
+      const overlay = document.createElement('div');
+      overlay.className = 'lightbox';
+      overlay.innerHTML = `
+        <div class="lightbox-backdrop"></div>
+        <button class="lightbox-btn lightbox-close" aria-label="Close">×</button>
+        <button class="lightbox-btn lightbox-prev" aria-label="Previous">‹</button>
+        <img class="lightbox-image" alt="Expanded view" />
+        <button class="lightbox-btn lightbox-next" aria-label="Next">›</button>
+      `;
+      document.body.appendChild(overlay);
+
+      const imgEl = overlay.querySelector('.lightbox-image');
+      const btnClose = overlay.querySelector('.lightbox-close');
+      const btnPrev = overlay.querySelector('.lightbox-prev');
+      const btnNext = overlay.querySelector('.lightbox-next');
+      const backdrop = overlay.querySelector('.lightbox-backdrop');
+
+      let current = -1;
+      const openAt = (i) => {
+        current = (i + thumbs.length) % thumbs.length;
+        const src = thumbs[current].getAttribute('src');
+        const alt = thumbs[current].getAttribute('alt') || 'Image';
+        imgEl.src = src; imgEl.alt = alt;
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      };
+      const close = () => {
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+        imgEl.removeAttribute('src');
+      };
+      const prev = () => openAt(current - 1);
+      const next = () => openAt(current + 1);
+
+      thumbs.forEach((img, i) => {
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', (e) => { e.preventDefault(); openAt(i); });
+      });
+      btnClose.addEventListener('click', close);
+      backdrop.addEventListener('click', close);
+      btnPrev.addEventListener('click', prev);
+      btnNext.addEventListener('click', next);
+      document.addEventListener('keydown', (e)=>{
+        if (!overlay.classList.contains('open')) return;
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowLeft') prev();
+        if (e.key === 'ArrowRight') next();
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact | Elorm Ernest Sepenoo</title>
+  <meta name="description" content="Contact Elorm Ernest Sepenoo — email, WhatsApp, social." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css?v=20251210" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark">E</span>
+        <span class="brand-name">Elorm</span>
+      </a>
+      <nav class="nav-links" id="nav-links">
+        <a href="about.html">About</a>
+        <a href="academics.html">Academics & Skills</a>
+        <a href="side-hustles.html">Side Hustles</a>
+        <a href="services.html">Services</a>
+        <a href="contact.html" class="active btn btn-primary">Contact</a>
+      </nav>
+      <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="page section">
+    <div class="container grid-2">
+      <section>
+        <span class="kicker">Contact</span>
+        <h1>Let's collaborate</h1>
+        <p class="lead">Send a message for engineering collaborations, footwear orders, or photography bookings.</p>
+        <div class="card mt-2">
+          <p><strong>Email:</strong> leronsepenoo@gmail.com</p>
+          <p><strong>Call:</strong> +233 53 428 6806</p>
+          <p><strong>WhatsApp:</strong> +233 50 359 8094</p>
+          <p><strong>Instagram:</strong> @leronotf</p>
+        </div>
+      </section>
+      <section>
+        <form class="form card" id="contact-form" action="contact-submit.php" method="post">
+          <div class="row">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" placeholder="Your name" required />
+          </div>
+          <div class="row">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required />
+          </div>
+          <div class="row">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Your message..." required></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">Send Message</button>
+          <div id="form-status" class="mt-2" aria-live="polite"></div>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Elorm Ernest Sepenoo. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    (function(){
+      const form = document.getElementById('contact-form');
+      const status = document.getElementById('form-status');
+      if (!form || !status) return;
+      form.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        status.textContent = 'Sending...';
+        const fd = new FormData(form);
+        try {
+          const res = await fetch(form.action, { method: 'POST', body: fd });
+          const data = await res.json().catch(()=>({ ok:false, error:'Invalid server response' }));
+          if (res.ok && data.ok){
+            status.style.color = '#0a7d36';
+            status.textContent = 'Message sent via SMS. Thank you!';
+            form.reset();
+          } else {
+            status.style.color = '#b71c1c';
+            status.textContent = 'Failed to send: ' + (data.error || res.statusText);
+          }
+        } catch(err){
+          status.style.color = '#b71c1c';
+          status.textContent = 'Network error sending message';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
